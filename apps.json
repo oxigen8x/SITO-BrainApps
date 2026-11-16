@@ -11,7 +11,8 @@
       "description": "Descrizione estesa dell'app: cosa fa, per chi è pensata e come iniziare a usarla in pochi secondi. Qui scrivi due o tre frasi.",
       "url": "https://oxigen8x.github.io/Garage-Memo/",
       "screenshots": [
-        "img/app-uno/1.webp"
+        "img/app-uno/1.webp",
+        "img/app-uno/2.webp"
       ],
       "tags": [
         "Memo",
