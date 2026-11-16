@@ -39,6 +39,7 @@
   #app { min-height: 100vh; display: flex; flex-direction: column; }
   #app > .wrap { flex: 1; width: 100%; }
   a { color: inherit; }
+  button { font-family: inherit; }
   :focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
 
   /* Sfondo: cerchi concentrici */
@@ -63,6 +64,18 @@
   h1 .hy { color: var(--lime); }
   .tagline { margin-top: 16px; color: var(--mut); font-size: 1.0625rem; max-width: 34ch; }
 
+  /* Logo (immagine o iniziale) */
+  .logo {
+    width: 48px; height: 48px; flex: none; border-radius: 13px; overflow: hidden;
+    background: #1c1c1c; border: 1px solid #333;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .logo img { width: 100%; height: 100%; object-fit: contain; padding: 6px; display: block; }
+  .logo.ini { font-family: var(--mono); font-weight: 500; font-size: 1.25rem; color: var(--lime); }
+  .logo.lg { width: 56px; height: 56px; border-radius: 15px; }
+  .logo.lg.ini { font-size: 1.5rem; }
+  .card.featured .logo { background: var(--ink); border-color: var(--ink); }
+
   /* Griglia card */
   .grid {
     display: grid; gap: 14px;
@@ -70,18 +83,20 @@
     margin: clamp(36px, 7vw, 72px) 0 64px;
   }
   .card {
-    display: flex; flex-direction: column; justify-content: space-between; gap: 28px;
+    display: flex; flex-direction: column; justify-content: space-between; gap: 24px;
     min-height: 236px; padding: 20px; border-radius: 18px;
     background: var(--card); border: 1px solid var(--line);
     cursor: pointer; transition: transform .2s ease, border-color .2s ease;
   }
   .card:hover { transform: translateY(-3px); border-color: #4a4a4a; }
   .card.featured { background: var(--lime); border-color: var(--lime); color: var(--ink); }
-  .meta { font-family: var(--mono); font-size: 11px; color: var(--mut); }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .meta { font-family: var(--mono); font-size: 11px; color: var(--mut); text-align: right; }
   .card.featured .meta, .card.featured .sub, .card.featured .more { color: var(--lime-sub); }
   .name {
     display: block; text-decoration: none;
     font-size: 1.875rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1.05;
+    overflow-wrap: anywhere;
   }
   .sub { margin-top: 6px; font-size: .875rem; color: var(--mut); }
   .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
@@ -108,26 +123,41 @@
     animation: fade .2s ease;
   }
   .sheet {
-    width: 100%; max-width: 520px; max-height: calc(100vh - 48px); overflow: auto;
-    background: #121212; border: 1px solid var(--line); border-radius: 22px; padding: 28px;
+    width: 100%; max-width: 640px; max-height: calc(100vh - 48px); overflow: auto;
+    background: #121212; border: 1px solid var(--line); border-radius: 22px; padding: 24px 28px 28px;
     animation: pop .22s ease;
   }
-  .sheet-top { display: flex; justify-content: space-between; align-items: center; }
-  .sheet .meta { color: var(--lime); font-size: 12px; }
+  .sheet-head { display: flex; align-items: center; gap: 16px; }
+  .sheet-head .t { flex: 1; min-width: 0; }
+  .sheet .meta { color: var(--lime); font-size: 12px; text-align: left; }
   .x {
-    width: 44px; height: 44px; margin: -8px -8px 0 0; border-radius: 50%;
+    width: 44px; height: 44px; flex: none; align-self: flex-start; margin: -8px -10px 0 0; border-radius: 50%;
     border: 1px solid var(--line); background: transparent; color: var(--fg);
     font-size: 22px; line-height: 1; cursor: pointer;
   }
   .x:hover { border-color: #555; }
-  .sheet h2 { margin-top: 10px; font-size: 2.75rem; line-height: 1; letter-spacing: -0.05em; font-weight: 700; }
+  .sheet h2 { font-size: 2.25rem; line-height: 1.05; letter-spacing: -0.05em; font-weight: 700; overflow-wrap: anywhere; }
   .desc { margin-top: 14px; color: var(--mut); font-size: 1rem; line-height: 1.55; }
-  .feat { margin-top: 18px; padding: 0; list-style: none; display: grid; gap: 8px; font-size: .9375rem; }
+
+  .g-head { margin-top: 18px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; color: var(--mut); }
+  .gallery {
+    margin: 8px -28px 0 0; padding: 0 28px 10px 0; display: flex; gap: 10px;
+    overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: #333 transparent;
+  }
+  .shot {
+    flex: none; height: 150px; min-width: 90px; padding: 0; scroll-snap-align: start;
+    border: 1px solid #2f2f2f; border-radius: 10px; background: #171717; overflow: hidden; cursor: zoom-in;
+  }
+  .shot:hover { border-color: #555; }
+  .shot img { display: block; height: 100%; width: auto; max-width: none; }
+
+  .cols { margin-top: 16px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .feat { padding: 0; list-style: none; display: grid; gap: 6px; font-size: .9375rem; }
   .feat li { display: flex; align-items: center; gap: 10px; }
   .feat li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--lime); flex: none; }
-  .tags { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; font-family: var(--mono); font-size: 11px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; font-family: var(--mono); font-size: 11px; }
   .tags span { border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; color: var(--mut); }
-  .actions { margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+  .actions { margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
   .actions .pill { min-height: 48px; padding: 0 24px; font-size: .9375rem; }
   .ghost {
     min-height: 44px; padding: 0 14px; border: 0; background: transparent; color: var(--mut);
@@ -135,28 +165,59 @@
   }
   .ghost:hover { color: var(--fg); }
 
+  /* Schermata ingrandita */
+  .lb {
+    position: fixed; inset: 0; z-index: 20; background: rgba(0, 0, 0, 0.93);
+    display: flex; align-items: center; justify-content: center; animation: fade .2s ease; touch-action: pan-y;
+  }
+  .lb img {
+    max-width: min(92vw, 1200px); max-height: 76vh; object-fit: contain;
+    border-radius: 12px; border: 1px solid #2f2f2f; background: #171717; user-select: none; -webkit-user-drag: none;
+  }
+  .lb-top {
+    position: absolute; top: 0; left: 0; right: 0; padding: 12px 20px;
+    display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 12px; color: var(--mut);
+  }
+  .lb-top .x { margin: 0; align-self: center; }
+  .lb-nav {
+    position: absolute; top: 50%; margin-top: -22px; width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(20, 20, 20, 0.9); border: 1px solid var(--line); color: var(--fg);
+    font-size: 24px; line-height: 1; cursor: pointer;
+  }
+  .lb-nav:hover { border-color: #555; }
+  .lb-prev { left: 20px; } .lb-next { right: 20px; }
+  .lb-dots { position: absolute; bottom: 26px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; }
+  .lb-dots i { width: 6px; height: 6px; border-radius: 3px; background: #444; display: block; transition: width .2s ease; }
+  .lb-dots i.on { width: 22px; background: var(--lime); }
+
   @keyframes fade { from { opacity: 0; } }
   @keyframes pop { from { opacity: 0; transform: translateY(10px) scale(.98); } }
   @keyframes rise { from { transform: translateY(40px); opacity: .6; } }
 
   @media (max-width: 640px) {
     .wrap { padding: 0 20px; }
-    .card { min-height: 156px; gap: 18px; }
+    .card { min-height: 170px; gap: 18px; }
+    .name { font-size: 1.625rem; }
     .backdrop { align-items: flex-end; padding: 0; }
     .sheet {
-      max-width: none; max-height: 88vh; border-radius: 26px 26px 0 0; border-width: 1px 0 0;
+      max-width: none; max-height: 90vh; border-radius: 26px 26px 0 0; border-width: 1px 0 0;
       padding: 12px 20px 24px; animation: rise .25s ease;
     }
     .sheet::before {
       content: ""; display: block; width: 40px; height: 4px; border-radius: 2px;
       background: #3a3a3a; margin: 0 auto 16px;
     }
-    .sheet h2 { font-size: 2.125rem; }
+    .sheet h2 { font-size: 1.875rem; }
+    .logo.lg { width: 48px; height: 48px; }
+    .gallery { margin-right: -20px; padding-right: 20px; }
+    .shot { height: 130px; }
     .actions .pill { flex: 1 1 100%; }
+    .cols { flex-direction: column; }
   }
+  @media (pointer: coarse) { .lb-nav { display: none; } }
   @media (prefers-reduced-motion: reduce) {
-    .card, .pill { transition: none; }
-    .backdrop, .sheet { animation: none; }
+    .card, .pill, .lb-dots i { transition: none; }
+    .backdrop, .sheet, .lb { animation: none; }
   }
 </style>
 </head>
@@ -201,7 +262,7 @@
 
   var appRoot = document.getElementById("app");
   var grid = document.getElementById("grid");
-  var state = { site: {}, apps: [], baseTitle: document.title, inApp: false, lastFocus: null, dlg: null };
+  var state = { site: {}, apps: [], baseTitle: document.title, inApp: false, lastFocus: null, dlg: null, lb: null };
 
   /* ---------- utilità ---------- */
   function el(tag, attrs, kids) {
@@ -222,12 +283,27 @@
       return x.protocol === "https:" || x.protocol === "http:" ? x.href : "#";
     } catch (e) { return "#"; }
   }
+  function safeImg(u) {
+    try {
+      var s = String(u || "");
+      if (!s) return "";
+      if (/^data:image\//i.test(s)) return s;
+      var x = new URL(s, location.href);
+      var ok = ["https:", "http:", "blob:"];
+      if (location.protocol === "file:") ok.push("file:");
+      return ok.indexOf(x.protocol) > -1 ? x.href : "";
+    } catch (e) { return ""; }
+  }
   function slug(s) {
     return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
       .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
   }
   function pad(n) { return n < 10 ? "0" + n : String(n); }
   function label(app, i) { return pad(i + 1) + " · " + ((app.tags && app.tags[0]) || "app"); }
+  function initial(name) {
+    var m = String(name).match(/[A-Za-z0-9À-ÿ]/);
+    return m ? m[0].toUpperCase() : "?";
+  }
 
   /* ---------- caricamento dati ---------- */
   function load() {
@@ -238,11 +314,21 @@
     });
   }
 
+  function normShots(list) {
+    if (!Array.isArray(list)) return [];
+    return list.map(function (s) {
+      if (typeof s === "string") return { src: s, alt: "" };
+      if (s && typeof s === "object" && s.src) return { src: String(s.src), alt: s.alt ? String(s.alt) : "" };
+      return null;
+    }).filter(Boolean);
+  }
+
   function normalize(data) {
     var list = Array.isArray(data) ? data : (data && data.apps) || [];
     var seen = {};
     return list.filter(function (a) { return a && a.name; }).map(function (a) {
       var id = a.id ? slug(a.id) : slug(a.name);
+      if (!id) id = "app";
       var base = id, n = 2;
       while (seen[id]) id = base + "-" + n++;
       seen[id] = true;
@@ -252,11 +338,26 @@
         tagline: a.tagline ? String(a.tagline) : "",
         description: a.description ? String(a.description) : "",
         url: a.url || "#",
+        logo: a.logo ? String(a.logo) : "",
+        screenshots: normShots(a.screenshots),
         tags: Array.isArray(a.tags) ? a.tags.map(String) : [],
         features: Array.isArray(a.features) ? a.features.map(String) : [],
         featured: !!a.featured
       };
     });
+  }
+
+  /* ---------- logo ---------- */
+  function logoNode(app, big) {
+    var box = el("span", { class: "logo" + (big ? " lg" : "") });
+    var src = safeImg(app.logo);
+    function fallback() { box.textContent = initial(app.name); box.classList.add("ini"); }
+    if (src) {
+      var img = el("img", { src: src, alt: "", decoding: "async" });
+      img.addEventListener("error", function () { img.remove(); fallback(); });
+      box.append(img);
+    } else { fallback(); }
+    return box;
   }
 
   /* ---------- home ---------- */
@@ -268,15 +369,16 @@
     if (i > -1) {
       h1.append(title.slice(0, i), el("span", { class: "hy", text: "-" }), title.slice(i + 1));
     } else { h1.append(title); }
-    if (state.site && state.site.tagline) document.getElementById("tagline").textContent = state.site.tagline;
+    document.getElementById("tagline").textContent =
+      (state.site && state.site.tagline) || "Strumenti web minimali. Apri, usa, chiudi.";
     state.baseTitle = title;
-    document.title = title;
+    document.title = state.dlg ? document.title : title;
     document.getElementById("count").textContent = state.apps.length + " app · online";
   }
 
   function card(app, i) {
     var c = el("article", { class: "card" + (app.featured ? " featured" : "") });
-    c.append(el("span", { class: "meta", text: label(app, i) }));
+    c.append(el("div", { class: "top" }, [logoNode(app, false), el("span", { class: "meta", text: label(app, i) })]));
     var mid = el("div", {}, [
       el("a", { class: "name", href: "#/" + encodeURIComponent(app.id), text: app.name })
     ]);
@@ -309,34 +411,107 @@
     state.apps.forEach(function (a, i) { grid.append(card(a, i)); });
   }
 
-  /* ---------- scheda app ---------- */
+  /* ---------- schermata ingrandita ---------- */
   function focusables(root) {
     return Array.prototype.slice.call(root.querySelectorAll("a[href], button:not([disabled])"));
   }
 
-  function openDetail(app, index) {
-    if (state.dlg) {
-      if (state.dlg.dataset.id === app.id) return;
-      state.dlg.remove(); state.dlg = null;
-    } else {
-      state.lastFocus = document.activeElement;
+  function openLightbox(app, index, opener) {
+    var shots = app.screenshots, i = 0;
+    var img = el("img", { alt: "", draggable: "false" });
+    var counter = el("span", {});
+    var dots = el("div", { class: "lb-dots", "aria-hidden": "true" }, shots.map(function () { return el("i"); }));
+    var closeBtn = el("button", { class: "x", type: "button", "aria-label": "Chiudi schermata", text: "×" });
+    var prev = el("button", { class: "lb-nav lb-prev", type: "button", "aria-label": "Schermata precedente", text: "‹" });
+    var next = el("button", { class: "lb-nav lb-next", type: "button", "aria-label": "Schermata successiva", text: "›" });
+    var box = el("div", { class: "lb", role: "dialog", "aria-modal": "true", "aria-label": "Schermate di " + app.name }, [
+      el("div", { class: "lb-top" }, [counter, closeBtn]), img
+    ]);
+    if (shots.length > 1) { box.append(prev, next, dots); }
+
+    function show(n) {
+      i = (n + shots.length) % shots.length;
+      var s = shots[i];
+      img.src = safeImg(s.src);
+      img.alt = s.alt || (app.name + " – schermata " + (i + 1));
+      counter.textContent = app.name + " · " + (i + 1) + " / " + shots.length;
+      Array.prototype.forEach.call(dots.children, function (d, k) { d.className = k === i ? "on" : ""; });
+      [i - 1, i + 1].forEach(function (k) {
+        if (shots.length > 1) { var p = new Image(); p.src = safeImg(shots[(k + shots.length) % shots.length].src); }
+      });
     }
 
+    prev.addEventListener("click", function () { show(i - 1); });
+    next.addEventListener("click", function () { show(i + 1); });
+    closeBtn.addEventListener("click", closeLightbox);
+    box.addEventListener("click", function (e) { if (e.target === box) closeLightbox(); });
+    var x0 = null;
+    box.addEventListener("pointerdown", function (e) { x0 = e.clientX; });
+    box.addEventListener("pointerup", function (e) {
+      if (x0 == null || shots.length < 2) return;
+      var dx = e.clientX - x0; x0 = null;
+      if (Math.abs(dx) > 50) show(dx < 0 ? i + 1 : i - 1);
+    });
+
+    state.lb = { box: box, opener: opener, go: function (d) { show(i + d); } };
+    if (state.dlg) state.dlg.inert = true;
+    document.body.append(box);
+    show(index);
+    closeBtn.focus();
+  }
+
+  function closeLightbox() {
+    if (!state.lb) return;
+    var o = state.lb.opener;
+    state.lb.box.remove(); state.lb = null;
+    if (state.dlg) state.dlg.inert = false;
+    if (o && o.focus && document.contains(o)) o.focus();
+  }
+
+  /* ---------- scheda app ---------- */
+  function buildDetail(app, index) {
     var closeBtn = el("button", { class: "x", type: "button", "aria-label": "Chiudi", text: "×" });
     var copyBtn = el("button", { class: "ghost", type: "button", text: "Copia link" });
     var backBtn = el("button", { class: "ghost", type: "button", text: "← Tutte le app" });
 
     var sheet = el("div", { class: "sheet", role: "dialog", "aria-modal": "true", "aria-labelledby": "dlg-title" }, [
-      el("div", { class: "sheet-top" }, [el("span", { class: "meta", text: label(app, index) }), closeBtn]),
-      el("h2", { id: "dlg-title", text: app.name }),
-      el("p", { class: "desc", text: app.description || app.tagline || "" })
+      el("div", { class: "sheet-head" }, [
+        logoNode(app, true),
+        el("div", { class: "t" }, [el("div", { class: "meta", text: label(app, index) }), el("h2", { id: "dlg-title", text: app.name })]),
+        closeBtn
+      ])
     ]);
-    if (app.features.length) {
-      sheet.append(el("ul", { class: "feat" }, app.features.map(function (f) { return el("li", { text: f }); })));
+    var text = app.description || app.tagline;
+    if (text) sheet.append(el("p", { class: "desc", text: text }));
+
+    if (app.screenshots.length) {
+      var n = app.screenshots.length;
+      var gHead = el("div", { class: "g-head" }, [
+        el("span", { text: n + (n === 1 ? " schermata" : " schermate") }),
+        n > 1 ? el("span", { text: "scorri →" }) : null
+      ].filter(Boolean));
+      sheet.append(gHead);
+      var gal = el("div", { class: "gallery" });
+      app.screenshots.forEach(function (s, k) {
+        var im = el("img", { src: safeImg(s.src), alt: s.alt || (app.name + " – schermata " + (k + 1)), loading: "lazy", decoding: "async" });
+        var b = el("button", { class: "shot", type: "button", "aria-label": "Ingrandisci schermata " + (k + 1) + " di " + n }, [im]);
+        im.addEventListener("error", function () {
+          b.remove();
+          if (!gal.querySelector(".shot")) { gal.remove(); gHead.remove(); }
+        });
+        b.addEventListener("click", function () { openLightbox(app, k, b); });
+        gal.append(b);
+      });
+      sheet.append(gal);
     }
-    if (app.tags.length) {
-      sheet.append(el("div", { class: "tags" }, app.tags.map(function (t) { return el("span", { text: t }); })));
+
+    if (app.features.length || app.tags.length) {
+      var cols = el("div", { class: "cols" });
+      if (app.features.length) cols.append(el("ul", { class: "feat" }, app.features.map(function (f) { return el("li", { text: f }); })));
+      if (app.tags.length) cols.append(el("div", { class: "tags" }, app.tags.map(function (t) { return el("span", { text: t }); })));
+      sheet.append(cols);
     }
+
     sheet.append(el("div", { class: "actions" }, [
       el("a", { class: "pill", href: safeUrl(app.url), target: "_blank", rel: "noopener noreferrer", text: "Apri app ↗" }),
       copyBtn, backBtn
@@ -353,24 +528,38 @@
         navigator.clipboard.writeText(location.href).then(function () { done("Copiato"); }, function () { done("Non riuscito"); });
       } catch (e) { done("Non riuscito"); }
     });
+    return { backdrop: backdrop, closeBtn: closeBtn };
+  }
 
-    document.body.append(backdrop);
-    state.dlg = backdrop;
+  function openDetail(app, index) {
+    if (state.dlg) {
+      if (state.dlg.dataset.id === app.id) return;
+      closeLightbox();
+      state.dlg.remove(); state.dlg = null;
+    } else {
+      state.lastFocus = document.activeElement;
+    }
+    var d = buildDetail(app, index);
+    document.body.append(d.backdrop);
+    state.dlg = d.backdrop;
     appRoot.inert = true;
     document.body.classList.add("lock");
     document.title = app.name + " · " + state.baseTitle;
-    closeBtn.focus();
+    d.closeBtn.focus();
   }
 
   function closeDetail() {
-    if (!state.dlg) return;
-    state.dlg.remove(); state.dlg = null;
+    closeLightbox();
+    var had = !!state.dlg;
+    if (state.dlg) { state.dlg.remove(); state.dlg = null; }
     appRoot.inert = false;
     document.body.classList.remove("lock");
-    document.title = state.baseTitle;
-    if (state.lastFocus && state.lastFocus.focus) state.lastFocus.focus();
-    state.lastFocus = null;
-    state.inApp = false;
+    if (had) {
+      document.title = state.baseTitle;
+      if (state.lastFocus && state.lastFocus.focus) state.lastFocus.focus();
+      state.lastFocus = null;
+      state.inApp = false;
+    }
   }
 
   function requestClose() {
@@ -381,33 +570,52 @@
 
   function route() {
     var m = location.hash.match(/^#\/(.+)$/);
-    var id = m ? decodeURIComponent(m[1]) : null;
+    var id = null;
+    try { id = m ? decodeURIComponent(m[1]) : null; } catch (e) { id = null; }
     var idx = -1;
     state.apps.forEach(function (a, i) { if (a.id === id) idx = i; });
     if (idx > -1) openDetail(state.apps[idx], idx); else closeDetail();
   }
 
   document.addEventListener("keydown", function (e) {
+    if (state.lb) {
+      if (e.key === "Escape") { e.preventDefault(); closeLightbox(); return; }
+      if (e.key === "ArrowLeft") { e.preventDefault(); state.lb.go(-1); return; }
+      if (e.key === "ArrowRight") { e.preventDefault(); state.lb.go(1); return; }
+      if (e.key === "Tab") trap(e, state.lb.box);
+      return;
+    }
     if (!state.dlg) return;
     if (e.key === "Escape") { e.preventDefault(); requestClose(); return; }
-    if (e.key === "Tab") {
-      var f = focusables(state.dlg);
-      if (!f.length) return;
-      var first = f[0], last = f[f.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    }
+    if (e.key === "Tab") trap(e, state.dlg);
   });
+  function trap(e, root) {
+    var f = focusables(root);
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
   window.addEventListener("hashchange", route);
 
-  /* ---------- avvio ---------- */
-  load().then(function (data) {
+  /* ---------- dati e avvio ---------- */
+  function setData(data) {
     state.site = (data && !Array.isArray(data) && data.site) || {};
     state.apps = normalize(data);
+    if (state.dlg) { closeLightbox(); state.dlg.remove(); state.dlg = null; }
     renderHero();
     renderGrid();
     route();
-  }).catch(function () {
+  }
+
+  /* usato dall'editor per aggiornare l'anteprima */
+  window.BrainApps = {
+    setData: setData,
+    open: function (id) { state.inApp = false; location.hash = "#/" + encodeURIComponent(id); },
+    close: function () { closeDetail(); }
+  };
+
+  load().then(setData).catch(function () {
     grid.textContent = "";
     grid.append(el("p", { class: "msg", text: "Non riesco a caricare l'elenco delle app. Riprova tra poco." }));
   });
