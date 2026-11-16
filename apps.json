@@ -6,12 +6,24 @@
   "apps": [
     {
       "id": "app-uno",
-      "name": "App Uno",
-      "tagline": "Utility per il browser.",
+      "name": "Smemo - Garage",
+      "tagline": "Reminder scadenze veicoli",
       "description": "Descrizione estesa dell'app: cosa fa, per chi è pensata e come iniziare a usarla in pochi secondi. Qui scrivi due o tre frasi.",
-      "url": "https://tuousername.github.io/app-uno/",
-      "tags": ["utility", "web"],
-      "features": ["Funzionalità principale", "Seconda funzionalità", "Terza funzionalità"],
+      "url": "https://oxigen8x.github.io/Garage-Memo/",
+      "screenshots": [
+        "img/app-uno/1.webp"
+      ],
+      "tags": [
+        "Memo",
+        "reminder",
+        "car",
+        "moto"
+      ],
+      "features": [
+        "Funzionalità principale",
+        "Seconda funzionalità",
+        "Terza funzionalità"
+      ],
       "featured": true
     },
     {
@@ -20,17 +32,29 @@
       "tagline": "Per organizzare la giornata.",
       "description": "Descrizione estesa della seconda app. Racconta il problema che risolve e perché l'hai creata.",
       "url": "https://tuousername.github.io/app-due/",
-      "tags": ["produttività", "web"],
-      "features": ["Funzionalità principale", "Seconda funzionalità"]
+      "tags": [
+        "produttività",
+        "web"
+      ],
+      "features": [
+        "Funzionalità principale",
+        "Seconda funzionalità"
+      ]
     },
     {
       "id": "app-tre",
       "name": "App Tre",
       "tagline": "Un piccolo gioco mobile.",
-      "description": "Descrizione estesa della terza app. Puoi aggiungere quante app vuoi: basta copiare uno di questi blocchi.",
+      "description": "Descrizione estesa della terza app. Puoi aggiungere quante app vuoi.",
       "url": "https://tuousername.github.io/app-tre/",
-      "tags": ["gioco", "mobile"],
-      "features": ["Funzionalità principale", "Seconda funzionalità"]
+      "tags": [
+        "gioco",
+        "mobile"
+      ],
+      "features": [
+        "Funzionalità principale",
+        "Seconda funzionalità"
+      ]
     }
   ]
 }
