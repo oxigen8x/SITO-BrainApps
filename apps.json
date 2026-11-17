@@ -6,13 +6,19 @@
   "apps": [
     {
       "id": "app-uno",
-      "name": "App Uno",
-      "tagline": "Utility per il browser.",
-      "description": "Descrizione estesa dell'app: cosa fa, per chi è pensata e come iniziare a usarla in pochi secondi. Qui scrivi due o tre frasi.",
-      "url": "https://tuousername.github.io/app-uno/",
+      "name": "Smemo - Garage",
+      "tagline": "Reminder scadenze veicoli",
+      "description": "Smemo-Garage tiene sotto controllo le scadenze di auto e moto: bollo, assicurazione, revisione, tagliando, olio, cinghia e gomme. Registra gli interventi con data e chilometri, imposta le ricorrenze e ricevi un avviso prima che scada qualcosa.",
+      "url": "https://oxigen8x.github.io/Garage-Memo/",
+      "screenshots": [
+        "img/app-uno/1.webp",
+        "img/app-uno/2.webp"
+      ],
       "tags": [
-        "utility",
-        "web"
+        "Memo",
+        "reminder",
+        "car",
+        "moto"
       ],
       "features": [
         "Funzionalità principale",
@@ -23,10 +29,10 @@
     },
     {
       "id": "app-due",
-      "name": "Smemo - Market",
-      "tagline": "Tieni la spesa sotto controllo",
+      "name": "App Due",
+      "tagline": "Per organizzare la giornata.",
       "description": "Descrizione estesa della seconda app. Racconta il problema che risolve e perché l'hai creata.",
-      "url": "https://oxigen8x.github.io/Smemo-Market/",
+      "url": "https://tuousername.github.io/app-due/",
       "tags": [
         "produttività",
         "web"
