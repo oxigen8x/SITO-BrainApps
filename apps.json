@@ -24,18 +24,17 @@
         "Funzionalità principale",
         "Seconda funzionalità",
         "Terza funzionalità"
-      ],
-      "featured": true
+      ]
     },
     {
       "id": "app-due",
-      "name": "App Due",
-      "tagline": "Per organizzare la giornata.",
-      "description": "Descrizione estesa della seconda app. Racconta il problema che risolve e perché l'hai creata.",
-      "url": "https://tuousername.github.io/app-due/",
+      "name": "Smemo - Market",
+      "tagline": "Spesa sotto controllo",
+      "description": "arremassecittonida tannemastaffeifa",
+      "url": "https://oxigen8x.github.io/Smemo-Market/",
       "tags": [
-        "produttività",
-        "web"
+        "memo",
+        "supermarket"
       ],
       "features": [
         "Funzionalità principale",
