@@ -10,6 +10,7 @@
       "tagline": "Reminder scadenze veicoli",
       "description": "Smemo-Garage tiene sotto controllo le scadenze di auto e moto: bollo, assicurazione, revisione, tagliando, olio, cinghia e gomme. Registra gli interventi con data e chilometri, imposta le ricorrenze e ricevi un avviso prima che scada qualcosa.",
       "url": "https://oxigen8x.github.io/Smemo-Garage/",
+      "logo": "img/app-uno/logo.webp",
       "screenshots": [
         "img/app-uno/1.webp",
         "img/app-uno/2.webp"
@@ -21,17 +22,17 @@
         "moto"
       ],
       "features": [
-        "Funzionalità principale",
-        "Seconda funzionalità",
-        "Terza funzionalità"
+        "WEB App - pwa",
+        "ver. Alpha 1.0"
       ]
     },
     {
       "id": "app-due",
-      "name": "Smemo - Market",
-      "tagline": "Spesa sotto controllo",
-      "description": "arremassecittonida tannemastaffeifa",
+      "name": "M.A.C.",
+      "tagline": "Master Audio Control",
+      "description": "-",
       "url": "https://oxigen8x.github.io/Smemo-Market/",
+      "logo": "img/app-due/logo.webp",
       "tags": [
         "memo",
         "supermarket"
