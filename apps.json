@@ -33,6 +33,12 @@
       "description": "Audio DSP per tutto l'audio di Windows. Master Audio Control elabora il suono di ogni programma prima che arrivi alle casse o alle cuffie, con bassa latenza, in stereo e fino a 7.1.",
       "url": "https://github.com/oxigen8x/MAC-Master-Audio-Control/releases/download/v1.0.0/MasterAudioControl-0.7.0-r7-win64-portable.zip",
       "logo": "img/app-due/logo.webp",
+      "screenshots": [
+        "img/app-due/1.webp",
+        "img/app-due/2.webp",
+        "img/app-due/3.webp",
+        "img/app-due/4.webp"
+      ],
       "tags": [
         "Audio",
         "Fx",
