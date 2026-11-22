@@ -42,7 +42,15 @@
       ],
       "features": [
         "Requisiti: VB-Cable installato. ( https://vb-audio.com/Cable/ )"
-      ]
+      ],
+      "cta": "Scarica",
+      "ctaIcon": "download",
+      "guide": {
+        "enabled": true,
+        "label": "Guida",
+        "mode": "view",
+        "file": "guide/app-due.html"
+      }
     }
   ]
 }
