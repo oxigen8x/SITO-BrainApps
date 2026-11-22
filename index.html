@@ -184,6 +184,7 @@
   .gv-act { display: flex; align-items: center; gap: 4px; flex: none; }
   .gv-act .ghost { display: inline-flex; align-items: center; text-decoration: none; }
   .gv-act .x { margin: 0; }
+  .gv-miss { padding: 24px 20px; color: var(--mut); }
   .gv iframe { flex: 1; border: 0; width: 100%; background: #fff; }
 
   /* Schermata ingrandita */
@@ -536,6 +537,14 @@
       el("iframe", { src: src, title: g.label + " di " + app.name, sandbox: "" })
     ]);
     closeBtn.addEventListener("click", closeGuide);
+    if (/^https?:/i.test(src)) {
+      fetch(src, { method: "HEAD", cache: "no-store" }).then(function (r) {
+        if (r.ok || !state.gv || state.gv.box !== box) return;
+        var f = box.querySelector("iframe");
+        var m = el("p", { class: "gv-miss", text: "File della guida non trovato (" + g.file + "). Controlla di averlo caricato nel repo, nella cartella indicata." });
+        f.replaceWith(m); dl.remove();
+      }).catch(function () {});
+    }
     state.gv = { box: box, opener: opener };
     if (state.dlg) state.dlg.inert = true;
     document.body.append(box);
