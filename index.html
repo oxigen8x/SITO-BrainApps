@@ -113,6 +113,8 @@
   }
   .pill:hover { opacity: .88; }
   .card.featured .pill { background: var(--ink); color: var(--lime); }
+  .pill.out { background: transparent; color: var(--fg); border: 1px solid #3a3a3a; }
+  .pill.out:hover { opacity: 1; border-color: var(--lime); color: var(--lime); }
   .more { font-family: var(--mono); font-size: 12px; color: var(--mut); text-decoration: none; padding: 12px 0 12px 8px; }
   .more:hover { color: var(--fg); }
   .card.featured .more:hover { color: var(--ink); }
@@ -169,6 +171,21 @@
   }
   .ghost:hover { color: var(--fg); }
 
+  /* Guida */
+  .gv {
+    position: fixed; inset: 0; z-index: 20; background: var(--bg);
+    display: flex; flex-direction: column; animation: fade .2s ease;
+  }
+  .gv-top {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    padding: 10px 16px 10px 20px; border-bottom: 1px solid var(--line);
+  }
+  .gv-top b { font: 500 .9375rem var(--sans); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .gv-act { display: flex; align-items: center; gap: 4px; flex: none; }
+  .gv-act .ghost { display: inline-flex; align-items: center; text-decoration: none; }
+  .gv-act .x { margin: 0; }
+  .gv iframe { flex: 1; border: 0; width: 100%; background: #fff; }
+
   /* Schermata ingrandita */
   .lb {
     position: fixed; inset: 0; z-index: 20; background: rgba(0, 0, 0, 0.93);
@@ -216,6 +233,7 @@
     .gallery { margin-right: -20px; padding-right: 20px; }
     .shot { height: 130px; }
     .actions .pill { flex: 1 1 100%; }
+    .gv-top { padding-left: 16px; }
     .cols { flex-direction: column; }
   }
   @media (pointer: coarse) { .lb-nav { display: none; } }
@@ -266,7 +284,7 @@
 
   var appRoot = document.getElementById("app");
   var grid = document.getElementById("grid");
-  var state = { site: {}, apps: [], baseTitle: document.title, inApp: false, lastFocus: null, dlg: null, lb: null };
+  var state = { site: {}, apps: [], baseTitle: document.title, inApp: false, lastFocus: null, dlg: null, lb: null, gv: null };
 
   /* ---------- utilità ---------- */
   function el(tag, attrs, kids) {
@@ -287,6 +305,18 @@
       return x.protocol === "https:" || x.protocol === "http:" ? x.href : "#";
     } catch (e) { return "#"; }
   }
+  function safeGuide(u) {
+    try {
+      var s = String(u || "");
+      if (!s) return "";
+      if (/^data:text\/html[;,]/i.test(s)) return s;
+      var x = new URL(s, location.href);
+      var ok = ["https:", "http:", "blob:"];
+      if (location.protocol === "file:") ok.push("file:");
+      return ok.indexOf(x.protocol) > -1 ? x.href : "";
+    } catch (e) { return ""; }
+  }
+  function ctaText(app) { return app.cta + (app.ctaIcon ? " " + app.ctaIcon : ""); }
   function safeImg(u) {
     try {
       var s = String(u || "");
@@ -327,6 +357,15 @@
     }).filter(Boolean);
   }
 
+  function normGuide(g) {
+    if (!g || typeof g !== "object" || g.enabled === false || !g.file) return null;
+    return {
+      label: g.label && String(g.label).trim() ? String(g.label).trim().slice(0, 30) : "Guida",
+      mode: g.mode === "download" ? "download" : "view",
+      file: String(g.file)
+    };
+  }
+
   function normalize(data) {
     var list = Array.isArray(data) ? data : (data && data.apps) || [];
     var seen = {};
@@ -346,7 +385,10 @@
         screenshots: normShots(a.screenshots),
         tags: Array.isArray(a.tags) ? a.tags.map(String) : [],
         features: Array.isArray(a.features) ? a.features.map(String) : [],
-        featured: !!a.featured
+        featured: !!a.featured,
+        cta: a.cta && String(a.cta).trim() ? String(a.cta).trim().slice(0, 40) : "Apri app",
+        ctaIcon: a.ctaIcon === "download" ? "↓" : a.ctaIcon === "none" ? "" : "↗",
+        guide: normGuide(a.guide)
       };
     });
   }
@@ -391,7 +433,7 @@
     c.append(el("div", { class: "row" }, [
       el("a", {
         class: "pill", href: safeUrl(app.url), target: "_blank", rel: "noopener noreferrer",
-        "aria-label": "Apri " + app.name + " (nuova scheda)", text: "Apri app ↗"
+        "aria-label": app.cta + ": " + app.name + " (nuova scheda)", text: ctaText(app)
       }),
       el("a", { class: "more", href: "#/" + encodeURIComponent(app.id), "aria-label": "Scheda di " + app.name, text: "scheda →" })
     ]));
@@ -472,6 +514,42 @@
     if (o && o.focus && document.contains(o)) o.focus();
   }
 
+  /* ---------- guida ---------- */
+  function guideNode(app) {
+    var g = app.guide, src = g && safeGuide(g.file);
+    if (!src) return null;
+    if (g.mode === "download") {
+      return el("a", { class: "pill out", href: src, download: "guida-" + app.id + ".html", text: g.label + " ↓" });
+    }
+    var b = el("button", { class: "pill out", type: "button", text: g.label });
+    b.addEventListener("click", function () { openGuide(app, src, b); });
+    return b;
+  }
+
+  function openGuide(app, src, opener) {
+    closeGuide();
+    var g = app.guide;
+    var closeBtn = el("button", { class: "x", type: "button", "aria-label": "Chiudi", text: "×" });
+    var dl = el("a", { class: "ghost", href: src, download: "guida-" + app.id + ".html", text: "Scarica" });
+    var box = el("div", { class: "gv", role: "dialog", "aria-modal": "true", "aria-label": g.label + " – " + app.name }, [
+      el("div", { class: "gv-top" }, [el("b", { text: g.label + " · " + app.name }), el("span", { class: "gv-act" }, [dl, closeBtn])]),
+      el("iframe", { src: src, title: g.label + " di " + app.name, sandbox: "" })
+    ]);
+    closeBtn.addEventListener("click", closeGuide);
+    state.gv = { box: box, opener: opener };
+    if (state.dlg) state.dlg.inert = true;
+    document.body.append(box);
+    closeBtn.focus();
+  }
+
+  function closeGuide() {
+    if (!state.gv) return;
+    var o = state.gv.opener;
+    state.gv.box.remove(); state.gv = null;
+    if (state.dlg) state.dlg.inert = false;
+    if (o && o.focus && document.contains(o)) o.focus();
+  }
+
   /* ---------- scheda app ---------- */
   function buildDetail(app, index) {
     var closeBtn = el("button", { class: "x", type: "button", "aria-label": "Chiudi", text: "×" });
@@ -517,9 +595,10 @@
     }
 
     sheet.append(el("div", { class: "actions" }, [
-      el("a", { class: "pill", href: safeUrl(app.url), target: "_blank", rel: "noopener noreferrer", text: "Apri app ↗" }),
+      el("a", { class: "pill", href: safeUrl(app.url), target: "_blank", rel: "noopener noreferrer", text: ctaText(app) }),
+      guideNode(app),
       copyBtn, backBtn
-    ]));
+    ].filter(Boolean)));
 
     var backdrop = el("div", { class: "backdrop" }, [sheet]);
     backdrop.dataset.id = app.id;
@@ -538,7 +617,7 @@
   function openDetail(app, index) {
     if (state.dlg) {
       if (state.dlg.dataset.id === app.id) return;
-      closeLightbox();
+      closeGuide(); closeLightbox();
       state.dlg.remove(); state.dlg = null;
     } else {
       state.lastFocus = document.activeElement;
@@ -553,6 +632,7 @@
   }
 
   function closeDetail() {
+    closeGuide();
     closeLightbox();
     var had = !!state.dlg;
     if (state.dlg) { state.dlg.remove(); state.dlg = null; }
@@ -582,6 +662,11 @@
   }
 
   document.addEventListener("keydown", function (e) {
+    if (state.gv) {
+      if (e.key === "Escape") { e.preventDefault(); closeGuide(); return; }
+      if (e.key === "Tab") trap(e, state.gv.box);
+      return;
+    }
     if (state.lb) {
       if (e.key === "Escape") { e.preventDefault(); closeLightbox(); return; }
       if (e.key === "ArrowLeft") { e.preventDefault(); state.lb.go(-1); return; }
@@ -606,7 +691,7 @@
   function setData(data) {
     state.site = (data && !Array.isArray(data) && data.site) || {};
     state.apps = normalize(data);
-    if (state.dlg) { closeLightbox(); state.dlg.remove(); state.dlg = null; }
+    if (state.dlg) { closeGuide(); closeLightbox(); state.dlg.remove(); state.dlg = null; }
     renderHero();
     renderGrid();
     route();
