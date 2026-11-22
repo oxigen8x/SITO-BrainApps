@@ -34,27 +34,14 @@
       "url": "https://oxigen8x.github.io/Smemo-Market/",
       "logo": "img/app-due/logo.webp",
       "tags": [
-        "memo",
-        "supermarket"
+        "Audio",
+        "Fx",
+        "eq",
+        "comp",
+        "limiter"
       ],
       "features": [
-        "Funzionalità principale",
-        "Seconda funzionalità"
-      ]
-    },
-    {
-      "id": "app-tre",
-      "name": "App Tre",
-      "tagline": "Un piccolo gioco mobile.",
-      "description": "Descrizione estesa della terza app. Puoi aggiungere quante app vuoi.",
-      "url": "https://tuousername.github.io/app-tre/",
-      "tags": [
-        "gioco",
-        "mobile"
-      ],
-      "features": [
-        "Funzionalità principale",
-        "Seconda funzionalità"
+        "Requisiti: VB-Cable installato. ( https://vb-audio.com/Cable/ )"
       ]
     }
   ]
